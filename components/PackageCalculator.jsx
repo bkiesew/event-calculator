@@ -406,7 +406,7 @@ const PackageCalculator = () => {
                     <span className="font-medium">{calculateTotalCapacity()} people</span>
                   </div>
                   <p className="text-sm text-gray-600 mt-2">
-                    All tents include professional setup, daily housekeeping service, and quality linens and bedding.
+                    All tents include professional setup and quality linens and bedding.
                   </p>
                 </div>
               </div>
@@ -607,7 +607,7 @@ const PackageCalculator = () => {
               
               <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-600">
                 <p className="font-medium text-gray-800 mb-1">Next Steps:</p>
-                <p>This is an estimate based on your selections. To book your event or get a detailed proposal, please contact our events team at events@thegulch.com or (555) 123-4567.</p>
+                <p>This is an estimate based on your selections. To book your event or get a detailed proposal, please contact our events team at booking@gulchguys.com.</p>
               </div>
               
               <div className="flex justify-between mt-6">
