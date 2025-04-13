@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/card';
 const PackageCalculator = () => {
   const [attendees, setAttendees] = useState(100);
-  const [days, setDays] = useState(2);
+  const [nights, setNights] = useState(2); // Changed variable name from days to nights
   const [selectedTents, setSelectedTents] = useState({
     deluxeDouble: 0,
     deluxe: 0,
@@ -42,16 +42,16 @@ const PackageCalculator = () => {
     }
   };
 
-  // Calculate base costs based on attendees and days
+  // Calculate base costs based on attendees and nights
   const calculateBaseCosts = () => {
     // Property costs - Fixed cleaning fee
     const propertyCosts = 2000;
     
-    // Equipment costs - Fixed based on attendees and days
+    // Equipment costs - Fixed based on attendees and nights
     let equipmentCosts = 0;
     
-    // For 150 attendees, 2 days (matching Excel exactly)
-    if (attendees === 150 && days === 2) {
+    // For 150 attendees, 2 nights (matching Excel exactly)
+    if (attendees === 150 && nights === 2) {
       equipmentCosts = 6000;
       
       // Staffing costs - Fixed based on exact Excel values
@@ -65,8 +65,8 @@ const PackageCalculator = () => {
       };
     }
     
-    // For 100 attendees, 3 days (matching Excel exactly)
-    if (attendees === 100 && days === 3) {
+    // For 100 attendees, 3 nights (matching Excel exactly)
+    if (attendees === 100 && nights === 3) {
       equipmentCosts = 4700;
       
       // Staffing costs - Fixed based on exact Excel values
@@ -92,7 +92,7 @@ const PackageCalculator = () => {
     equipmentCosts += 1600;
     
     // Pump out fee
-    const pumpOutCount = days <= 2 ? 2 : 3;
+    const pumpOutCount = nights <= 2 ? 2 : 3;
     equipmentCosts += 300 * pumpOutCount * (attendees > 100 ? 2 : 1);
     
     // Staffing costs
@@ -100,7 +100,7 @@ const PackageCalculator = () => {
     
     // Setup staff
     if (attendees <= 100) {
-      staffingCosts += 700 * (days <= 2 ? 2 : 4);
+      staffingCosts += 700 * (nights <= 2 ? 2 : 4);
     } else {
       staffingCosts += 700 * 4;
     }
@@ -110,38 +110,38 @@ const PackageCalculator = () => {
     
     // Event staff
     if (attendees <= 50) {
-      staffingCosts += 700 * days;
+      staffingCosts += 700 * nights;
     } else if (attendees <= 100) {
-      staffingCosts += 700 * 3 * days;
+      staffingCosts += 700 * 3 * nights;
     } else if (attendees <= 150) {
-      staffingCosts += 700 * 4 * days;
+      staffingCosts += 700 * 4 * nights;
     } else {
-      staffingCosts += 700 * 6 * days;
+      staffingCosts += 700 * 6 * nights;
     }
     
     // Event manager
-    staffingCosts += 1000 * days;
+    staffingCosts += 1000 * nights;
     
     // Cleaning staff
     if (attendees <= 50) {
-      staffingCosts += 350 * days;
+      staffingCosts += 350 * nights;
     } else if (attendees <= 100) {
-      staffingCosts += 700 * 2 * days;
+      staffingCosts += 700 * 2 * nights;
     } else if (attendees <= 150) {
-      staffingCosts += 700 * 3 * days;
+      staffingCosts += 700 * 3 * nights;
     } else {
-      staffingCosts += 700 * 4 * days;
+      staffingCosts += 700 * 4 * nights;
     }
     
     // Paramedic
-    staffingCosts += 1200 * days;
+    staffingCosts += 1200 * nights;
     
     // Security
-    staffingCosts += 1000 * days;
+    staffingCosts += 1000 * nights;
     
     // Parking/Security
     if (attendees > 100) {
-      staffingCosts += 1000 * days;
+      staffingCosts += 1000 * nights;
     }
     
     const totalBaseCosts = propertyCosts + equipmentCosts + staffingCosts;
@@ -157,7 +157,7 @@ const PackageCalculator = () => {
   const calculateTentCosts = () => {
     const totalTents = Object.values(selectedTents).reduce((sum, count) => sum + count, 0);
     const setupFee = 150 * totalTents; // One-time setup fee per tent
-    const nightlyRate = 100 * totalTents * days; // Nightly rate per tent
+    const nightlyRate = 100 * totalTents * nights; // Nightly rate per tent
     return setupFee + nightlyRate;
   };
 
@@ -169,9 +169,9 @@ const PackageCalculator = () => {
 
   const calculateFBCost = () => {
     if (!fbPackage) return 0;
-    if (fbPackage === 'byoc') return 1200 * days;
+    if (fbPackage === 'byoc') return 1200 * nights;
     const rate = fbPackage === 'standard' ? 50 : 65;
-    return rate * attendees * days;
+    return rate * attendees * nights;
   };
 
   const calculateTotal = () => {
@@ -207,7 +207,7 @@ const PackageCalculator = () => {
   // Calculate included amenities
   const getIncludedAmenities = () => {
     const baseAmenities = [
-      'Exclusive venue access for the duration of your event',
+      'Exclusive venue access for the duration of your event (12pm to 12pm checkout)',
       'Professional cleaning before and after your event',
       'Onsite parking (40 vehicles)',
       'Portable restroom facilities'
@@ -222,7 +222,7 @@ const PackageCalculator = () => {
       'Setup & Breakdown Crew'
     ];
     
-    const multiDayAmenities = days > 1 ? [
+    const multiDayAmenities = nights > 1 ? [
       'Extended access hours',
       'Enhanced security coverage',
       'Daily refresh of common areas'
@@ -293,20 +293,18 @@ const PackageCalculator = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Number of Days</label>
+                    <label className="block text-sm font-medium mb-1">Number of Nights</label>
                     <input
                       type="number"
                       min="1"
                       max="7"
-                      value={days}
-                      onChange={(e) => setDays(Number(e.target.value))}
+                      value={nights}
+                      onChange={(e) => setNights(Number(e.target.value))}
                       className="w-full p-2 border rounded"
                     />
-                    {days > 1 && (
-                      <p className="text-sm text-blue-600 mt-1">
-                        Multi-day events include full property access
-                      </p>
-                    )}
+                    <p className="text-sm text-blue-600 mt-1">
+                      Each night includes 24-hour access (12pm check-in to 12pm checkout)
+                    </p>
                   </div>
                 </div>
 
@@ -333,9 +331,9 @@ const PackageCalculator = () => {
                       ))}
                     </ul>
                     
-                    {days > 1 && amenities.multiDayAmenities.length > 0 && (
+                    {nights > 1 && amenities.multiDayAmenities.length > 0 && (
                       <>
-                        <h4 className="font-medium mb-2">Multi-Day Benefits:</h4>
+                        <h4 className="font-medium mb-2">Multi-Night Benefits:</h4>
                         <ul className="text-sm space-y-1">
                           {amenities.multiDayAmenities.map((item, index) => (
                             <li key={index} className="flex items-start">
@@ -379,7 +377,7 @@ const PackageCalculator = () => {
                           <p className="text-sm text-gray-600">{details.description}</p>
                           <p className="text-sm">Capacity: {details.capacity} people</p>
                           <p className="text-sm mt-1 font-medium">
-                            ${100 * days + 150} total for {days} day{days > 1 ? 's' : ''}
+                            ${100 * nights + 150} total for {nights} night{nights > 1 ? 's' : ''}
                           </p>
                         </div>
                         <div>
@@ -435,14 +433,16 @@ const PackageCalculator = () => {
               <p className="text-sm text-gray-600 mb-4">
                 Choose from our curated food and beverage packages to keep your guests nourished and refreshed throughout your event.
               </p>
-              
+              <p className="text-sm text-gray-600 mb-4 italic">
+  Note: These are estimated prices. The chef you choose and menu you curate, along with current grocery prices, will determine the final price per person.
+</p>
               <div className="grid md:grid-cols-3 gap-4 mb-6">
                 <div 
                   className={`border rounded-lg p-4 cursor-pointer ${fbPackage === 'standard' ? 'border-blue-500 bg-blue-50' : ''}`}
                   onClick={() => setFbPackage('standard')}
                 >
                   <h4 className="font-medium">Standard Package</h4>
-                  <p className="text-xl font-bold mb-2">$50 per person/day</p>
+                  <p className="text-xl font-bold mb-2">$50 per person/night</p>
                   <ul className="text-sm space-y-1">
                     <li>• Breakfast & Lunch Service</li>
                     <li>• Dinner Service</li>
@@ -456,7 +456,7 @@ const PackageCalculator = () => {
                   onClick={() => setFbPackage('premium')}
                 >
                   <h4 className="font-medium">Premium Package</h4>
-                  <p className="text-xl font-bold mb-2">$65 per person/day</p>
+                  <p className="text-xl font-bold mb-2">$65 per person/night</p>
                   <ul className="text-sm space-y-1">
                     <li>• Enhanced Menu Selection</li>
                     <li>• Premium Dining Experience</li>
@@ -470,7 +470,7 @@ const PackageCalculator = () => {
                   onClick={() => setFbPackage('byoc')}
                 >
                   <h4 className="font-medium">Bring Your Own Chef</h4>
-                  <p className="text-xl font-bold mb-2">$1,200 per day</p>
+                  <p className="text-xl font-bold mb-2">$1,200 per night</p>
                   <ul className="text-sm space-y-1">
                     <li>• Commercial Kitchen Access</li>
                     <li>• Professional Equipment</li>
@@ -507,7 +507,7 @@ const PackageCalculator = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h4 className="font-medium">Event Overview</h4>
                   <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm font-medium">
-                    {days} Day{days > 1 ? 's' : ''} • {attendees} Guests
+                    {nights} Night{nights > 1 ? 's' : ''} • {attendees} Guests
                   </span>
                 </div>
                 
