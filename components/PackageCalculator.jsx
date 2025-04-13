@@ -4,11 +4,10 @@ const PackageCalculator = () => {
   const [attendees, setAttendees] = useState(100);
   const [nights, setNights] = useState(2); // Changed variable name from days to nights
   const [selectedTents, setSelectedTents] = useState({
-    deluxeDouble: 0,
-    deluxe: 0,
-    standard: 0,
-    basicDouble: 0,
-  });
+  emperorTent: 0,
+  bellTent: 0,
+  aFrameCabin: 0,
+});
   const [fbPackage, setFbPackage] = useState('standard');
   const [activeTab, setActiveTab] = useState('basic');
   
@@ -16,31 +15,25 @@ const PackageCalculator = () => {
   const marginPercentage = 50;
   
   const tentTypes = {
-    deluxeDouble: {
-      name: 'Deluxe Double Tent',
-      capacity: 4,
-      available: 6,
-      description: 'Premium tent with 2 queen beds'
-    },
-    deluxe: {
-      name: 'Deluxe Single',
-      capacity: 2,
-      available: 6,
-      description: 'Premium tent with 1 queen bed'
-    },
-    standard: {
-      name: 'Standard',
-      capacity: 2,
-      available: 20,
-      description: 'Comfortable tent with 1 full bed'
-    },
-    basicDouble: {
-      name: 'Basic Double',
-      capacity: 2,
-      available: 18,
-      description: '2 twin beds'
-    }
-  };
+  emperorTent: {
+    name: 'Emperor Tent',
+    capacity: 4,
+    available: 6,
+    description: 'Premium tent with 2 full beds or 1 king bed'
+  },
+  bellTent: {
+    name: 'Bell Tent',
+    capacity: 2,
+    available: 43,
+    description: '2 twin beds or 1 king bed'
+  },
+  aFrameCabin: {
+    name: 'A-Frame Cabin',
+    capacity: 2,
+    available: 2,
+    description: 'Cozy cabin with 1 full bed'
+  }
+};
 
   // Calculate base costs based on attendees and nights
   const calculateBaseCosts = () => {
