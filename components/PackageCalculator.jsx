@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/card';
 const PackageCalculator = () => {
   const [attendees, setAttendees] = useState(100);
-  const [nights, setNights] = useState(2);
+  const [days, setDays] = useState(2);
   const [selectedTents, setSelectedTents] = useState({
     deluxeDouble: 0,
     deluxe: 0,
